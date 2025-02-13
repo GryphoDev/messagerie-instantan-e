@@ -24,7 +24,9 @@ export function Home() {
   };
 
   useEffect(() => {
-    fetchComments();
+    setTimeout(() => {
+      fetchComments();
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
