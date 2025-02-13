@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-neutral-950 h-full text-stone-100 font-mono;
+}
+#root,
+html {
+  @apply h-full;
+}
