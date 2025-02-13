@@ -1,7 +1,7 @@
 export function Header() {
   const handleClick = () => {
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = "/";
   };
   return (
     <header className="border-b-1 border-neutral-500 flex justify-center bg-neutral-900">

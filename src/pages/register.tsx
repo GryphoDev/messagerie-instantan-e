@@ -70,7 +70,7 @@ export function Register() {
         >
           Valider
         </button>
-        <Link className="text-center text-sm mt-10" to={"/login"}>
+        <Link className="text-center text-sm mt-10" to={"/"}>
           Vous avez déjà un compte ? <br /> Rendez-vous sur la page de
           connextion !!
         </Link>
