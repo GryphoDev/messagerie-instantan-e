@@ -1,4 +1,6 @@
-const URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const URL = import.meta.env.VITE_API_URL;
+
+console.log(URL);
 
 export async function getAllComments() {
   const url = `${URL}/post`;

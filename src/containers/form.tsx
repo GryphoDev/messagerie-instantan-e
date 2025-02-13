@@ -46,16 +46,6 @@ export function Form({
     >
       <h2 className="text-xl mb-5">Envoyer un message</h2>
       <div className="flex flex-col gap-3 w-full">
-        <div className={idUpdatedComment ? "hidden" : ""}>
-          <label htmlFor="name">Nom :</label>
-          <input
-            id="name"
-            className="border-1 border-neutral-500 rounded-xl w-full p-1 bg-neutral-900 mt-1"
-            value={author}
-            type="text"
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </div>
         <div>
           <label htmlFor="comment">Message :</label>
           <textarea
