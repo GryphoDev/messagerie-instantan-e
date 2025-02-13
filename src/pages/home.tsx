@@ -24,9 +24,12 @@ export function Home() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const intervalId = setInterval(() => {
       fetchComments();
     }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
