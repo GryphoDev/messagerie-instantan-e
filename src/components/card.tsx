@@ -1,6 +1,7 @@
 import { fetchDelete } from "../services/fetch";
 
 type CardProps = {
+  user: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   setIdUpdatedComment: React.Dispatch<React.SetStateAction<string | undefined>>;
   fetchComments: () => void;
@@ -10,6 +11,7 @@ type CardProps = {
 };
 
 export function Card({
+  user,
   setMessage,
   setIdUpdatedComment,
   fetchComments,
@@ -28,14 +30,30 @@ export function Card({
   };
 
   return (
-    <div className="flex flex-col gap-4 w-11/12 border-1 border-neutral-500 shadow-white bg-neutral-900 rounded-2xl p-2 ">
+    <div
+      className={`flex flex-col w-10/12 border-1 border-neutral-500 shadow-white bg-neutral-900 rounded-2xl p-2  ${
+        user === author ? "self-end " : "self-start"
+      }`}
+    >
       <div className="flex justify-between items-center">
-        <span className="text-xs">De : {author}</span>
+        <span className="text-xs text-green-700">De : {author}</span>
         <div className="flex gap-2">
-          <button onClick={() => handleUpdate(id)} className="cursor-pointer">
+          <button
+            onClick={() => handleUpdate(id)}
+            className={
+              user === author
+                ? "cursor-pointer text-yellow-600 text-xl "
+                : "hidden"
+            }
+          >
             ✎
           </button>
-          <button onClick={() => handleDelete(id)} className="cursor-pointer">
+          <button
+            onClick={() => handleDelete(id)}
+            className={
+              user === author ? "cursor-pointer text-red-600" : "hidden"
+            }
+          >
             ⛌
           </button>
         </div>

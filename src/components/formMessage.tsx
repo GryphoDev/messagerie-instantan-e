@@ -1,7 +1,8 @@
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { postNewComment, fetchUpdate } from "../services/fetch";
 
 interface FormProps {
+  user: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   message: string;
   idUpdatedComment: string | undefined;
@@ -9,16 +10,14 @@ interface FormProps {
 }
 
 export function Form({
+  user,
   setMessage,
   message,
   idUpdatedComment,
   fetchComments,
 }: FormProps) {
-  const [author, setAuthor] = useState<string>("");
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setAuthor("");
     setMessage("");
 
     if (idUpdatedComment !== undefined) {
@@ -27,7 +26,7 @@ export function Form({
       return;
     }
 
-    await postNewComment(message, author);
+    await postNewComment(message, user);
     fetchComments();
   };
 
@@ -44,10 +43,9 @@ export function Form({
       onSubmit={handleSubmit}
       action="#"
     >
-      <h2 className="text-xl mb-5">Envoyer un message</h2>
       <div className="flex flex-col gap-3 w-full">
         <div>
-          <label htmlFor="comment">Message :</label>
+          <label htmlFor="comment">🎉 {user}</label>
           <textarea
             className="border-1 border-neutral-500 w-full rounded-2xl p-1 bg-neutral-900 mt-1 h-28"
             value={message}
@@ -60,7 +58,7 @@ export function Form({
         </div>
       </div>
       <button
-        className="border-1  border-neutral-500 px-4 bg-neutral-900 py-1 rounded-xl cursor-pointer "
+        className="border-1 text-blue-500  border-neutral-500 px-4 bg-neutral-900 py-1 rounded-xl cursor-pointer "
         type="submit"
       >
         Valider

@@ -12,7 +12,7 @@ export function Header() {
           className={
             !localStorage.getItem("token")
               ? "hidden"
-              : "border-1 border-neutral-500 py-1 px-4 rounded-xl cursor-pointer"
+              : "border-1 border-neutral-500 text-red-500 py-1 px-4 rounded-xl cursor-pointer"
           }
         >
           Déconnexion

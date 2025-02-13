@@ -1,7 +1,5 @@
 const URL = import.meta.env.VITE_API_URL;
 
-console.log(URL);
-
 export async function getAllComments() {
   const url = `${URL}/post`;
   try {

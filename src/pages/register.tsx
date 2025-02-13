@@ -28,7 +28,7 @@ export function Register() {
         className="flex flex-col justify-center items-center w-11/12 py-10 gap-8 mx-auto max-w-md min-h-screen -mt-[80px]"
         action="#"
       >
-        <h2 className="text-xl mb-10">Créer un compte</h2>
+        <h2 className="text-2xl text-yellow-600 mb-10">Créer un compte</h2>
         <div className="flex flex-col gap-3 w-full">
           <div>
             <label htmlFor="userNameRegister">Nom d'utilisateur</label>
@@ -65,12 +65,12 @@ export function Register() {
           </div>
         </div>
         <button
-          className="border-1  border-neutral-500 px-4 bg-neutral-900 py-1 rounded-xl cursor-pointer "
+          className="border-1 text-blue-500  border-neutral-500 px-4 bg-neutral-900 py-1 rounded-xl cursor-pointer "
           type="submit"
         >
           Valider
         </button>
-        <Link className="text-center text-sm mt-10" to={"/"}>
+        <Link className="text-center text-sm mt-10 text-green-700" to={"/"}>
           Vous avez déjà un compte ? <br /> Rendez-vous sur la page de
           connextion !!
         </Link>
