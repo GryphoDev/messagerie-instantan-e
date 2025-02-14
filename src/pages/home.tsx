@@ -52,7 +52,7 @@ export function Home() {
         className="border-1 mt-5  border-neutral-500 px-4 bg-neutral-900 py-1 rounded-xl cursor-pointer "
         to={"/group"}
       >
-        Groupes 🎸
+        Gérer vos groupes 🎸
       </Link>
       <Form
         user={user}

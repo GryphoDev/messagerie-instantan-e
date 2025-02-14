@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { deleteGroup } from "../services/createGroup";
+import { FormEvent, useState } from "react";
+import { deleteGroup, postInvitation } from "../services/createGroup";
 
 type GroupCardProps = {
   token: string;
@@ -8,7 +8,7 @@ type GroupCardProps = {
   admin: { _id: string; username: string }; // Type pour admin avec username
   groupName: string;
   groupTheme: string;
-  members: { _id: string; username: string }[]; // Type pour chaque membre
+  members: { status: string; username: string; _id: string }[]; // Type pour chaque membre
 };
 
 export function GroupCard({
@@ -21,6 +21,7 @@ export function GroupCard({
   members,
 }: GroupCardProps) {
   const [imputAdd, setInputAdd] = useState<boolean>(false);
+  const [invitation, setInvitation] = useState<string>("");
 
   const handleDelete = async () => {
     console.log(groupId);
@@ -36,6 +37,19 @@ export function GroupCard({
     setInputAdd(true);
   };
 
+  const handleInvitation = async (e: FormEvent) => {
+    e.preventDefault();
+    const response = await postInvitation(token, groupId, invitation);
+
+    if (!response.ok) {
+      return alert(response.message);
+    }
+
+    alert(response.message);
+    setInputAdd(false);
+    window.location.reload();
+  };
+
   return (
     <div className="border-1 border-neutral-500 rounded-xl p-2 w-[280px] h-fit">
       <div className="flex flex-col gap-5 text-xs ">
@@ -47,13 +61,6 @@ export function GroupCard({
             </span>
           </div>
           <div className="flex gap-2 items-baseline">
-            <span
-              className={
-                admin.username !== currentUser ? "hidden" : "text-green-500"
-              }
-            >
-              Admin
-            </span>
             <button
               onClick={() => handleDelete()}
               className={
@@ -70,9 +77,27 @@ export function GroupCard({
           <span>Membres du groupe : </span>
           <ul className="list-disc">
             {members.map((member) => (
-              <li className="ml-3" key={member._id}>
-                {member.username === currentUser ? "Vous" : member.username}
-              </li>
+              <div className="flex justify-between" key={member.username}>
+                <li className="ml-3" key={member._id}>
+                  {member.username === currentUser ? "Vous" : member.username}
+                </li>
+                {member.status === "Admin" && (
+                  <span className="text-green-500">Admin</span>
+                )}
+                {member.status === "pending" &&
+                  member.username !== currentUser && <span>En attente</span>}
+                {member.status === "pending" &&
+                  member.username === currentUser && (
+                    <div>
+                      <button className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-blue-500">
+                        Accepter
+                      </button>{" "}
+                      <button className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-red-500">
+                        Refuser
+                      </button>
+                    </div>
+                  )}
+              </div>
             ))}
           </ul>
           <div className="flex flex-col gap-2">
@@ -82,7 +107,10 @@ export function GroupCard({
             >
               +
             </button>
-            <div className={imputAdd ? "flex flex-col gap-2" : "hidden"}>
+            <form
+              onSubmit={handleInvitation}
+              className={imputAdd ? "flex flex-col gap-2" : "hidden"}
+            >
               <label className="text-xs" htmlFor="usernameInvit">
                 Nom du membre à ajouter :
               </label>
@@ -91,13 +119,18 @@ export function GroupCard({
                   className="border-1 border-neutral-500 rounded-md "
                   name="usernameInvit"
                   id="usernameInvit"
+                  value={invitation}
+                  onChange={(e) => setInvitation(e.target.value)}
                   type="text"
                 />
-                <button className="px-2 w-fit cursor-pointer bg-neutral-900 text-blue-500 texl-lg rounded-md border-1  border-neutral-500">
+                <button
+                  type="submit"
+                  className="px-2 w-fit cursor-pointer bg-neutral-900 text-blue-500 texl-lg rounded-md border-1  border-neutral-500"
+                >
                   Valider
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

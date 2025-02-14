@@ -8,7 +8,7 @@ type Group = {
   admin: { _id: string; username: string }; // Type pour admin avec username
   groupName: string;
   groupTheme: string;
-  members: { _id: string; username: string }[]; // Type pour chaque membre
+  members: { status: string; username: string; _id: string }[]; // Type pour chaque membre
 };
 
 export function Group() {
@@ -56,7 +56,7 @@ export function Group() {
   return (
     <main className="p-3">
       <div className="flex flex-col items-center pt-5 pb-10 gap-8">
-        <h2 className="text-2xl text-yellow-600">Gérer vos groupes</h2>
+        <h2 className="text-2xl text-yellow-600">Créer un groupe</h2>
         <form
           onSubmit={handleCreateGroup}
           action="#"

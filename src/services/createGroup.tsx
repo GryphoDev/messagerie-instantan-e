@@ -1,5 +1,9 @@
 const URL = import.meta.env.VITE_API_URL;
 
+interface PostInvitationResponse {
+  message: string;
+  ok: boolean;
+}
 export async function createNewGroup(
   token: string,
   groupName: string,
@@ -17,7 +21,7 @@ export async function createNewGroup(
         groupTheme: groupTheme,
       }),
     });
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
     return error;
@@ -33,7 +37,7 @@ export async function getAllGroups(token: string) {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
     return error;
@@ -52,9 +56,37 @@ export async function deleteGroup(token: string, groupId: string) {
         groupId: groupId,
       }),
     });
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
     return error;
+  }
+}
+
+export async function postInvitation(
+  token: string,
+  groupId: string,
+  invitation: string
+): Promise<PostInvitationResponse> {
+  try {
+    const response = await fetch(`${URL}/createGroup`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        groupId: groupId,
+        usernameOfInvited: invitation,
+      }),
+    });
+    const data = await response.json();
+    return {
+      message: data.message,
+      ok: response.ok,
+    };
+  } catch (error) {
+    console.error("Erreur lors de l'envoi de l'invitation:", error);
+    return { message: "Erreur réseau ou serveur", ok: false };
   }
 }
