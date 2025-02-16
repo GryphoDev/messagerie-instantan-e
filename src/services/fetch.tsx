@@ -56,3 +56,21 @@ export async function fetchUpdate(id: string, commentUpdated: string) {
     console.error("Erreur de requête fetch :", error);
   }
 }
+
+export async function getGroupComments(token: string, groupId: string) {
+  const url = `${URL}/createGroup/${groupId}/message`;
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Erreur de requête fetch :", error);
+  }
+}

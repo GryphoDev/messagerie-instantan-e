@@ -1,7 +1,13 @@
-import { FormEvent } from "react";
+import { Dispatch, FormEvent, SetStateAction } from "react";
 import { postNewComment, fetchUpdate } from "../services/fetch";
+import {
+  postNewGroupMessage,
+  fetchUpdateGroupMessage,
+} from "../services/createGroup";
 
 interface FormProps {
+  setIdUpdatedComment: Dispatch<SetStateAction<string | undefined>>;
+  groupSelected: string;
   user: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   message: string;
@@ -10,6 +16,8 @@ interface FormProps {
 }
 
 export function Form({
+  setIdUpdatedComment,
+  groupSelected,
   user,
   setMessage,
   message,
@@ -19,15 +27,28 @@ export function Form({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setMessage("");
-
-    if (idUpdatedComment !== undefined) {
-      await fetchUpdate(idUpdatedComment, message);
+    if (groupSelected === "none") {
+      if (idUpdatedComment !== undefined) {
+        await fetchUpdate(idUpdatedComment, message);
+        setIdUpdatedComment(undefined);
+      } else {
+        await postNewComment(message, user);
+      }
       fetchComments();
-      return;
     }
 
-    await postNewComment(message, user);
-    fetchComments();
+    if (groupSelected !== "none") {
+      if (idUpdatedComment !== undefined) {
+        await fetchUpdateGroupMessage(idUpdatedComment, message);
+        setIdUpdatedComment(undefined);
+      } else {
+        const token = localStorage.getItem("token");
+        if (token) {
+          await postNewGroupMessage(token, groupSelected, message);
+        }
+      }
+      fetchComments();
+    }
   };
 
   const handleKeydown = (e: React.KeyboardEvent) => {

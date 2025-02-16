@@ -2,6 +2,7 @@ import { FormEvent, useState, useEffect } from "react";
 import { createNewGroup, getAllGroups } from "../services/createGroup";
 import { GroupCard } from "../components/groupCard";
 import { getUser } from "../services/getUser";
+import { Link } from "react-router-dom";
 
 type Group = {
   _id: string;
@@ -56,7 +57,15 @@ export function Group() {
   return (
     <main className="p-3">
       <div className="flex flex-col items-center pt-5 pb-10 gap-8">
-        <h2 className="text-2xl text-yellow-600">Créer un groupe</h2>
+        <div className="flex gap-5 items-center justify-center">
+          <Link
+            to={"/home"}
+            className="border-1 border-neutral-500 rounded-md  text-3xl leading-none px-2"
+          >
+            ←
+          </Link>
+          <h2 className="text-2xl text-yellow-600">Créer un groupe</h2>
+        </div>
         <form
           onSubmit={handleCreateGroup}
           action="#"

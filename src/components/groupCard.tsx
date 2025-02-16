@@ -1,5 +1,9 @@
 import { FormEvent, useState } from "react";
-import { deleteGroup, postInvitation } from "../services/createGroup";
+import {
+  deleteGroup,
+  postInvitation,
+  fetchInvitation,
+} from "../services/createGroup";
 
 type GroupCardProps = {
   token: string;
@@ -22,6 +26,24 @@ export function GroupCard({
 }: GroupCardProps) {
   const [imputAdd, setInputAdd] = useState<boolean>(false);
   const [invitation, setInvitation] = useState<string>("");
+
+  const handleAcceptInvitation = async () => {
+    const response = await fetchInvitation(token, groupId, "accepted");
+    if (!response.ok) {
+      return alert(response.message);
+    }
+    alert("Invitation acceptée");
+    window.location.reload();
+  };
+
+  const handleRefuseInvitation = async () => {
+    const response = await fetchInvitation(token, groupId, "rejected");
+    if (!response.ok) {
+      return alert(response.message);
+    }
+    alert("Invitation refusée");
+    window.location.reload();
+  };
 
   const handleDelete = async () => {
     console.log(groupId);
@@ -89,10 +111,16 @@ export function GroupCard({
                 {member.status === "pending" &&
                   member.username === currentUser && (
                     <div>
-                      <button className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-blue-500">
+                      <button
+                        onClick={handleAcceptInvitation}
+                        className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-blue-500 cursor-pointer"
+                      >
                         Accepter
                       </button>{" "}
-                      <button className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-red-500">
+                      <button
+                        onClick={handleRefuseInvitation}
+                        className="border-1 border-neutral-500 bg-neutral-900 rounded-md px-2 text-red-500 cursor-pointer"
+                      >
                         Refuser
                       </button>
                     </div>

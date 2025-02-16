@@ -1,6 +1,8 @@
 import { fetchDelete } from "../services/fetch";
+import { deleteGroupMessage } from "../services/createGroup";
 
 type CardProps = {
+  groupSelected: string;
   user: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   setIdUpdatedComment: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -11,6 +13,7 @@ type CardProps = {
 };
 
 export function Card({
+  groupSelected,
   user,
   setMessage,
   setIdUpdatedComment,
@@ -20,6 +23,11 @@ export function Card({
   author,
 }: CardProps) {
   const handleDelete = async (id: string) => {
+    if (groupSelected !== "none") {
+      await deleteGroupMessage(id);
+      fetchComments();
+      return;
+    }
     await fetchDelete(id);
     fetchComments();
   };
